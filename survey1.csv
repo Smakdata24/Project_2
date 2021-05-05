@@ -1,5 +1,5 @@
-survey_name,interview_date,satis_score,ease_score,likely_recomm,login_rating,nav_rating,web_rating,func_rating,ibiz_rating,features_rating,security_rating,dept_org_unit,prod_type,age
-Account,1/13/2020,7,6,9,,,,,,,,CB ,Deposits,38
+﻿survey_name,interview_date,satis_score,ease_score,likely_recomm,login_rating,nav_rating,web_rating,func_rating,ibiz_rating,features_rating,security_rating,dept_org_unit,prod_type,age
+New Account,1/13/2020,7,6,9,,,,,,,,CB ,Deposits,38
 Digital Banking,1/9/2020,7,7,10,7,7,7,7,,7,7,CB ,Deposits,74
 New Account,1/14/2020,7,7,10,,,,,,,,CB ,Deposits,84
 New Account,1/14/2020,7,7,10,,,,,,,,CB ,Deposits,19
