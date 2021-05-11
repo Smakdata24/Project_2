@@ -66,11 +66,11 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 
   var label;
 
-  if (chosenXAxis === "hair_length") {
-    label = "Hair Length:";
+  if (chosenXAxis === "age_group") {
+    label = "Age Group:";
   }
   else {
-    label = "# of Albums:";
+    label = "Cst Satisfaction Rating:";
   }
 
   var toolTip = d3.tip()
