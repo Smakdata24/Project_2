@@ -30,8 +30,8 @@ var chosenXAxis = "age_group";
 function xScale(ageGroup, chosenXAxis) {
   // create scales
   var xLinearScale = d3.scaleLinear()
-    .domain([d3.min(hairData, d => d[chosenXAxis]) * 0.8,
-      d3.max(hairData, d => d[chosenXAxis]) * 1.2
+    .domain([d3.min(surveyNew, d => d[chosenXAxis]) * 0.8,
+      d3.max(surveyNew, d => d[chosenXAxis]) * 1.2
     ])
     .range([0, width]);
 
@@ -70,7 +70,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     label = "Age Group:";
   }
   else {
-    label = "Cst Satisfaction Rating:";
+    label = "2020 Monthly Avg Satisfaction Rating:";
   }
 
   var toolTip = d3.tip()
