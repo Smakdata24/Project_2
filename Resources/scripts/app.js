@@ -30,8 +30,8 @@ var chosenXAxis = "Overall Satisfaction Score";
 function xScale(ageGroup, chosenXAxis) {
   // create scales
   var xLinearScale = d3.scaleLinear()
-    .domain([d3.min(surveyNew, d => d[chosenXAxis]) * 0.8,
-      d3.max(surveyNew, d => d[chosenXAxis]) * 1.2
+    .domain([d3.min(surveyData, d => d[chosenXAxis]) * 0.8,
+      d3.max(surveyData, d => d[chosenXAxis]) * 1.2
     ])
     .range([0, width]);
 
@@ -94,22 +94,24 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 }
 
 // Retrieve data from the CSV file and execute everything below
+
+var buildChart = () => {
 d3.csv("survey_new.csv").then(function(surveyData, err) {
   if (err) throw err;
 
   // parse data
-  survey_NewData.forEach(function(data) {
+  surveyData.forEach(function(data) {
     data.satis_rating = +data.satis_rating;
     data.avg_sat_rating = +data.avg_sat_rating;
     data.login_rating = +data.login_rating;
   });
 
   // xLinearScale function above csv import
-  var xLinearScale = xScale(survey_NewData, chosenXAxis);
+  var xLinearScale = xScale(surveyData, chosenXAxis);
 
   // Create y scale function
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(survey_NewData, d => d.num_hits)])
+    .domain([0, d3.max(surveyData, d => d.num_hits)])
     .range([height, 0]);
 
   // Create initial axis functions
@@ -128,7 +130,7 @@ d3.csv("survey_new.csv").then(function(surveyData, err) {
 
   // append initial circles
   var circlesGroup = chartGroup.selectAll("circle")
-    .data(survey_NewData)
+    .data(surveyData)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
@@ -181,7 +183,7 @@ d3.csv("survey_new.csv").then(function(surveyData, err) {
 
         // functions here found above csv import
         // updates x scale for new data
-        xLinearScale = xScale(survey_NewData, chosenXAxis);
+        xLinearScale = xScale(surveyData, chosenXAxis);
 
         // updates x axis with transition
         xAxis = renderAxes(xLinearScale, xAxis);
@@ -214,3 +216,7 @@ d3.csv("survey_new.csv").then(function(surveyData, err) {
 }).catch(function(error) {
   console.log(error);
 });
+}
+
+console.log('hello');
+buildChart();
