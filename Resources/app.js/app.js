@@ -24,7 +24,7 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Initial Params
-var chosenXAxis = "age_group";
+var chosenXAxis = "Overall Satisfaction Score";
 
 // function used for updating x-scale var upon click on axis label
 function xScale(ageGroup, chosenXAxis) {
@@ -66,8 +66,8 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 
   var label;
 
-  if (chosenXAxis === "age_group") {
-    label = "Age Group:";
+  if (chosenXAxis === "sat_score") {
+    label = "Overall Satisfaction Score:";
   }
   else {
     label = "2020 Monthly Avg Satisfaction Rating:";
@@ -77,7 +77,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     .attr("class", "tooltip")
     .offset([80, -60])
     .html(function(d) {
-      return (`${d.rockband}<br>${label} ${d[chosenXAxis]}`);
+      return (`${d.satis_rating}<br>${label} ${d[chosenXAxis]}`);
     });
 
   circlesGroup.call(toolTip);
@@ -94,22 +94,22 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 }
 
 // Retrieve data from the CSV file and execute everything below
-d3.csv("hairData.csv").then(function(hairData, err) {
+d3.csv("survey_new.csv").then(function(surveyData, err) {
   if (err) throw err;
 
   // parse data
-  hairData.forEach(function(data) {
-    data.hair_length = +data.hair_length;
-    data.num_hits = +data.num_hits;
-    data.num_albums = +data.num_albums;
+  survey_NewData.forEach(function(data) {
+    data.satis_rating = +data.satis_rating;
+    data.avg_sat_rating = +data.avg_sat_rating;
+    data.login_rating = +data.login_rating;
   });
 
   // xLinearScale function above csv import
-  var xLinearScale = xScale(hairData, chosenXAxis);
+  var xLinearScale = xScale(survey_NewData, chosenXAxis);
 
   // Create y scale function
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(hairData, d => d.num_hits)])
+    .domain([0, d3.max(survey_NewData, d => d.num_hits)])
     .range([height, 0]);
 
   // Create initial axis functions
@@ -128,11 +128,11 @@ d3.csv("hairData.csv").then(function(hairData, err) {
 
   // append initial circles
   var circlesGroup = chartGroup.selectAll("circle")
-    .data(hairData)
+    .data(survey_NewData)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
-    .attr("cy", d => yLinearScale(d.num_hits))
+    .attr("cy", d => yLinearScale(d.sevens))
     .attr("r", 20)
     .attr("fill", "pink")
     .attr("opacity", ".5");
@@ -144,16 +144,16 @@ d3.csv("hairData.csv").then(function(hairData, err) {
   var hairLengthLabel = labelsGroup.append("text")
     .attr("x", 0)
     .attr("y", 20)
-    .attr("value", "hair_length") // value to grab for event listener
+    .attr("value", "Overall Satisfaction Score") // value to grab for event listener
     .classed("active", true)
-    .text("Hair Metal Ban Hair Length (inches)");
+    .text("Customer Rating");
 
   var albumsLabel = labelsGroup.append("text")
     .attr("x", 0)
     .attr("y", 40)
-    .attr("value", "num_albums") // value to grab for event listener
+    .attr("value", "sevens") // value to grab for event listener
     .classed("inactive", true)
-    .text("# of Albums Released");
+    .text("sevens");
 
   // append y axis
   chartGroup.append("text")
@@ -162,7 +162,7 @@ d3.csv("hairData.csv").then(function(hairData, err) {
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .classed("axis-text", true)
-    .text("Number of Billboard 500 Hits");
+    .text("Average Ratings");
 
   // updateToolTip function above csv import
   var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
@@ -181,7 +181,7 @@ d3.csv("hairData.csv").then(function(hairData, err) {
 
         // functions here found above csv import
         // updates x scale for new data
-        xLinearScale = xScale(hairData, chosenXAxis);
+        xLinearScale = xScale(survey_NewData, chosenXAxis);
 
         // updates x axis with transition
         xAxis = renderAxes(xLinearScale, xAxis);
